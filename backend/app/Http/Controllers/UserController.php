@@ -264,12 +264,6 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        //
-        return response()->json([
-          'status' => 'success',
-          'status_code' => 200,
-          'message' => '演示功能，暂时不提供用户删除功能'
-        ], 200);
         $user = User::find($id);
         if ($user->delete()) {
             return $this->success();
@@ -346,11 +340,12 @@ class UserController extends Controller
                 $ext = $file->getClientOriginalExtension();
                 //文件类型
                 $type = $file->getClientMimeType();
-                //临时绝对路径
+                //临时绝对路径,存放在/tmp下
                 $realPath = $file->getRealPath();
 
                 $filename = date('YmdHiS') . uniqid() . '.' . $ext;
 
+                //配置在config/filesystems.php里
                 $bool = Storage::disk('uploads')->put($filename, file_get_contents($realPath));
                 if ($bool) {
                     $filename = 'uploads/' . $filename;

@@ -21,6 +21,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for arrays.
+     * 以下两个字段由laravel使用
      *
      * @var array
      */

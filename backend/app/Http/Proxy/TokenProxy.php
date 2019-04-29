@@ -28,6 +28,19 @@ class TokenProxy
 
     public function login($email, $password)
     {
+        /*
+        指定表来校验用户名和密码.该过程就是在显示的指定guards,否则默认走user
+        譬如:if(Auth::guard('admin')->attempt($request->only(['username','password'])))
+        /config/auth.php中配置guards.名字随意,譬如叫admin
+        认证表对应的自定义Model要extends Authenticatable
+
+        attempt方法接收键值数组对作为第一个参数，数组中的值被用于从数据表中查找用户，因此，在这个的例子中，用户将会通过email的值获取
+        如果用户被找到，经哈希运算后存储在数据中的密码将会和传递过来的经哈希运算处理的密码值进行比较
+        如果两个经哈希运算的密码相匹配那么一个认证session将会为这个用户开启
+        如果认证成功的话attempt方法将会返回true，否则返回false
+
+        先验证用户名和密码,验证成功后为用户生成token
+        */
         if (auth()->attempt(['email'=> $email, 'password'=> $password])){
             event(new UserLogin());
             return $this->proxy('password', [
@@ -70,7 +83,7 @@ class TokenProxy
         $website = $_SERVER['HTTP_HOST'];
         $response = $this->http->post('http://' . $website . '/oauth/token', ['form_params' => $data
         ]);
-        $token = json_decode((string)$response->getBody(), true);
+        $token = json_decode((string)$response->getBody(), true);//解码转换为PHP变量
         return response()->json(['token'      => $token['access_token'],
                                  'expires_in' => $token['expires_in'],
                                  'status' => 'success',

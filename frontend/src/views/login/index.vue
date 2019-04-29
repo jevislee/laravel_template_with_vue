@@ -3,7 +3,7 @@
    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"  class="card-box login-form">
        <h3 class="title">后台管理系统</h3>
          <el-form-item prop="username">
-             <el-input prefix-icon="el-icon-search" type="text" name="username" v-model="loginForm.username"  placeholder="登陆名">  </el-input>
+             <el-input prefix-icon="el-icon-search" type="text" name="username" v-model="loginForm.username"  placeholder="登录名">  </el-input>
          </el-form-item>
         <el-form-item prop="password">
         <el-input prefix-icon="el-icon-search" name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
@@ -51,8 +51,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "",
-        password: ""
+        username: "871228582@qq.com",
+        password: "123456"
       },
       loginRules: {
         username: [{ required: true, trigger: "blur" }],
